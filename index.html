@@ -1,162 +1,433 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JobTrackr</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/main.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Hai Huynh – Computer Science student at Oakland University. Portfolio of projects, skills, and experience." />
+<title>Hai Huynh | Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Roboto+Slab:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --teal: #5fb3a1;
+    --teal-dark: #4a9887;
+    --ink: #1c1f23;
+    --muted: #5d6670;
+    --line: #dfe4e8;
+    --bg: #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+  body {
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.75;
+    font-size: 17px;
+  }
+  a { color: inherit; text-decoration: none; }
+  ul { list-style: none; }
+  .sans { font-family: "Montserrat", system-ui, sans-serif; }
+
+  /* Animated network background */
+  #network { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+  main, header, footer { position: relative; z-index: 1; }
+
+  /* ---------- Navigation ---------- */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 22px 8%;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(6px);
+    transition: box-shadow .3s;
+  }
+  .nav.scrolled { box-shadow: 0 2px 14px rgba(0,0,0,.07); }
+  .nav a {
+    font-family: "Montserrat", sans-serif; font-size: 14px; font-weight: 500;
+    letter-spacing: 1px; text-transform: uppercase; color: var(--ink);
+    transition: color .2s;
+  }
+  .nav a:hover, .nav a.active { color: var(--teal); }
+  .nav__home { font-family: "Roboto Slab", serif !important; letter-spacing: 0 !important; font-size: 16px !important; }
+  .nav__links { display: flex; gap: 26px; }
+  .burger { display: none; background: none; border: 0; cursor: pointer; padding: 4px; }
+  .burger span { display: block; width: 24px; height: 2px; background: var(--ink); margin: 5px 0; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center;
+    padding: 110px 6% 80px;
+  }
+  .logo-row { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; justify-content: center; }
+  .logo-row .word {
+    font-family: "Roboto Slab", serif; font-weight: 400;
+    font-size: clamp(2.2rem, 6vw, 3.4rem); letter-spacing: 1px; text-transform: uppercase;
+  }
+  .logo-mark { width: 78px; height: 78px; }
+  .rule { width: 84px; height: 1px; background: #8a8f94; margin: 22px auto 28px; }
+
+  .social { display: flex; gap: 14px; justify-content: center; margin-bottom: 36px; }
+  .social a {
+    width: 36px; height: 36px; border-radius: 50%; background: #25282c;
+    display: grid; place-items: center; transition: transform .2s, background .2s;
+  }
+  .social a:hover { background: var(--teal); transform: translateY(-3px); }
+  .social svg { width: 17px; height: 17px; fill: #fff; }
+
+  .hero__sub { font-family: "Montserrat", sans-serif; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  .hero__text { max-width: 560px; font-size: 18px; }
+  .hero__text .teal { color: var(--teal); }
+  .underline { border-bottom: 1.5px solid var(--ink); }
+
+  .btn-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 30px; }
+  .btn {
+    font-family: "Montserrat", sans-serif; font-size: 15px; font-weight: 500;
+    letter-spacing: .5px; text-transform: uppercase; color: var(--teal);
+    border: 3px solid var(--teal); padding: 14px 30px; background: rgba(255,255,255,.7);
+    transition: background .2s, color .2s, transform .2s;
+  }
+  .btn:hover { background: var(--teal); color: #fff; transform: translateY(-2px); }
+
+  .chevron { margin-top: 56px; width: 46px; height: 24px; cursor: pointer; animation: bounce 2s infinite; }
+  .chevron svg { width: 100%; height: 100%; }
+  @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+
+  /* ---------- Sections ---------- */
+  .section { padding: 100px 8%; }
+  .section__inner { max-width: 1050px; margin: 0 auto; }
+  .section--panel { background: rgba(247,249,250,.88); }
+  .title {
+    font-family: "Montserrat", sans-serif; font-weight: 500; font-size: 28px;
+    letter-spacing: 3px; text-transform: uppercase; text-align: center; margin-bottom: 14px;
+  }
+  .title-rule { width: 60px; height: 3px; background: var(--teal); margin: 0 auto 50px; }
+
+  .about { max-width: 760px; margin: 0 auto; text-align: center; font-size: 18px; }
+  .about p + p { margin-top: 18px; }
+
+  .grid { display: grid; gap: 26px; }
+  .grid--3 { grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
+  .grid--2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .card {
+    background: rgba(255,255,255,.92); border: 1px solid var(--line); padding: 30px;
+    transition: transform .25s, border-color .25s, box-shadow .25s;
+  }
+  .card:hover { transform: translateY(-5px); border-color: var(--teal); box-shadow: 0 12px 28px rgba(0,0,0,.07); }
+  .card h3 { font-family: "Roboto Slab", serif; font-weight: 500; font-size: 21px; margin-bottom: 6px; }
+  .card p { color: var(--muted); font-size: 16px; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 16px; }
+  .chips li {
+    font-family: "Montserrat", sans-serif; font-size: 13px; padding: 6px 14px;
+    border: 1.5px solid var(--teal); color: var(--teal-dark);
+  }
+
+  .tech { font-family: "Montserrat", sans-serif; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--teal) !important; margin-bottom: 14px; }
+  .learned { margin-top: 12px; font-size: 15px !important; }
+  .learned strong { color: var(--ink); }
+  .links { margin-top: 18px; display: flex; gap: 20px; }
+  .links a { font-family: "Montserrat", sans-serif; font-size: 13px; font-weight: 500; color: var(--teal); letter-spacing: .5px; }
+  .links a:hover { text-decoration: underline; }
+
+  .job { max-width: 780px; margin: 0 auto; border-left: 3px solid var(--teal); }
+  .job .meta, .meta { font-family: "Montserrat", sans-serif; font-size: 13px; color: var(--teal) !important; letter-spacing: .5px; margin-bottom: 10px; }
+
+  .contact { text-align: center; }
+  .contact p.lead { max-width: 620px; margin: 0 auto 34px; font-size: 18px; }
+
+  .footer { text-align: center; padding: 28px 6%; font-family: "Montserrat", sans-serif; font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); background: rgba(255,255,255,.9); }
+
+  /* Scroll reveal */
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 900px) {
+    .burger { display: block; }
+    .nav__links {
+      position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; gap: 0;
+      background: #fff; padding: 8px 8% 18px; box-shadow: 0 10px 20px rgba(0,0,0,.08);
+      display: none;
+    }
+    .nav__links.open { display: flex; }
+    .nav__links a { padding: 12px 0; border-bottom: 1px solid var(--line); }
+    .nav__home { display: none; }
+    .logo-mark { width: 60px; height: 60px; }
+    .section { padding: 72px 6%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .chevron { animation: none; }
+  }
+</style>
 </head>
+
 <body>
-    <div class="container">
-        <header>
-            <h1><i class="fas fa-briefcase"></i> JobTracker</h1>
-            <p class="subtitle">Track and manage your job applications with ease</p>
-        </header>
-        
-        <div class="content-wrapper">
-            <div class="app-container">
-                <div class="app-header">
-                    <h2><i class="fas fa-tasks"></i> Application Tracker</h2>
-                    <button id="export-btn"><i class="fas fa-file-export"></i> Export Data</button>
-                </div>
-                
-                <div class="tabs">
-                    <div class="tab active" data-tab="add">Add Application</div>
-                    <div class="tab" data-tab="view">View Applications</div>
-                    <div class="tab" data-tab="stats">Statistics</div>
-                </div>
-                
-                <div class="tab-content active" id="add-tab">
-                    <div id="edit-mode-indicator" class="edit-mode-indicator">
-                        <i class="fas fa-edit"></i> Editing Application
-                    </div>
-                    
-                    <form id="application-form">
-                        <input type="hidden" id="edit-id" >
-                        <div class="form-group">
-                            <label for="company">Company Name *</label>
-                            <input type="text" id="company" placeholder="e.g. Google, Amazon, Microsoft" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="position">Position *</label>
-                            <input type="text" id="position" placeholder="e.g. Business Analyst, Product Manager" required>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="applied-date">Applied Date *</label>
-                                <input type="date" id="applied-date" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="status">Status *</label>
-                                <select id="status" required>
-                                    <option value="Applied">Applied</option>
-                                    <option value="Interview Scheduled">Interview Scheduled</option>
-                                    <option value="Technical Round">Technical Round</option>
-                                    <option value="Offer Received">Accepted</option>
-                                    <option value="Rejected">Rejected</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="notes">Notes</label>
-                            <textarea id="notes" rows="3" placeholder="Interview details, contact person, preparation notes..."></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="next-step">Next Step</label>
-                            <input type="text" id="next-step" placeholder="e.g. Follow up on Tuesday, Prepare case study">
-                        </div>
-                        
-                        <div class="edit-form-actions">
-                            <button type="submit" id="submit-btn"><i class="fas fa-plus"></i> Add Application</button>
-                            <button type="button" id="cancel-edit-btn" class="btn-warning"><i class="fas fa-times"></i> Cancel Edit
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                
-                <div class="tab-content" id="view-tab">
-                    <div class="filters">
-                        <div class="filter-group">
-                            <label>Filter by status:</label>
-                            <select id="status-filter">
-                                <option value="all">All Applications</option>
-                                <option value="Applied">Applied</option>
-                                <option value="Interview Scheduled">Interview Scheduled</option>
-                                <option value="Technical Round">Technical Round</option>
-                                <option value="Offer Received">Accepted</option>
-                                <option value="Rejected">Rejected</option>
-                            </select>
-                        </div>
-                        
-                        <div class="filter-group">
-                            <label>Sort by:</label>
-                            <select id="sort-by">
-                                <option value="newest">Newest First</option>
-                                <option value="oldest">Oldest First</option>
-                                <option value="company">Company Name</option>
-                            </select>
-                        </div>
-                        
-                        <div class="filter-group">
-                            <label>Search:</label>
-                            <input type="text" id="search" placeholder="Company or position">
-                        </div>
-                    </div>
-                    
-                    <div class="view-toggle">
-                        <div class="view-btn active" data-view="grid"><i class="fas fa-th"></i> Grid</div>
-                        <div class="view-btn" data-view="list"><i class="fas fa-list"></i> List</div>
-                    </div>
-                    
-                    <div id="applications-container">
-                        <!-- Applications will be loaded here -->
-                    </div>
-                </div>
-                
-                <div class="tab-content" id="stats-tab">
-                    <h3><i class="fas fa-chart-pie"></i> Application Statistics</h3>
-                    
-                    <div class="stats">
-                        <div class="stat-card">
-                            <div class="stat-value" id="total-apps">0</div>
-                            <div class="stat-label">Total Applications</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="active-apps">0</div>
-                            <div class="stat-label">In Progress</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="interviews">0</div>
-                            <div class="stat-label">Interviews</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="offers">0</div>
-                            <div class="stat-label">Offers</div>
-                        </div>
-                    </div>
-                    
-                    <div class="export-section">
-                        <div>
-                            <h4><i class="fas fa-download"></i> Backup Your Data</h4>
-                            <p>Export your application data as a JSON file</p>
-                        </div>
-                        <button id="export-data-btn"><i class="fas fa-file-download"></i> Export Data</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <footer>
-            <p>JobTrackr - Your Application Tracker | Data is stored locally in your browser</p>
-        </footer>
+<canvas id="network" aria-hidden="true"></canvas>
+
+<!-- NAVIGATION -->
+<header class="nav" id="nav">
+  <a href="#home" class="nav__home active">Home</a>
+  <button class="burger" id="burger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  <nav class="nav__links" id="navLinks">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#experience">Experience</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- 1. HOME -->
+  <section class="hero" id="home">
+    <div class="logo-row">
+      <span class="word">Hai</span>
+      <span class="word">Huynh</span>
+    </div>
+    <div class="rule"></div>
+
+    <div class="social">
+      <a href="https://haihuynh25.github.io/" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg viewBox="0 0 24 24"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.62 1.59.23 2.76.11 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/hai-huynh-588923331" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.06c.53-1 1.84-2 3.8-2 4.06 0 4.84 2.67 4.84 6.14V21h-4v-5.03c0-1.2-.02-2.75-1.67-2.75-1.68 0-1.94 1.31-1.94 2.66V21h-4z"/></svg>
+      </a>
+      <a href="mailto:haikiet969753@gmail.com" aria-label="Email">
+        <svg viewBox="0 0 24 24"><path d="M2 5.5A1.5 1.5 0 0 1 3.5 4h17A1.5 1.5 0 0 1 22 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-17A1.5 1.5 0 0 1 2 18.5zm2.4.5L12 12.2 19.6 6zM20 7.9l-8 6.5-8-6.5V18h16z"/></svg>
+      </a>
     </div>
 
-    <script src="script/interviewTracker.js"></script>
+    <p class="hero__sub">Computer Science Student &nbsp;|&nbsp; Business &amp; Technology</p>
+    <p class="hero__text">
+      Welcome to Hai Huynh's <span class="underline">portfolio</span>.<br />
+      I'm a student at <span class="teal">Oakland University</span>. I enjoy using technology to solve problems, improve processes, and make information easier to understand.
+    </p>
+
+    <div class="btn-row">
+      <a href="#projects" class="btn">View My Projects</a>
+      <a href="resume.pdf" class="btn" download>Download Resume</a>
+      <a href="#contact" class="btn">Contact Me</a>
+    </div>
+
+    <a href="#about" class="chevron" aria-label="Scroll down">
+      <svg viewBox="0 0 46 24" fill="none" stroke="#5fb3a1" stroke-width="5"><polyline points="2,3 23,20 44,3"/></svg>
+    </a>
+  </section>
+
+  <!-- 2. ABOUT -->
+  <section class="section section--panel" id="about">
+    <div class="section__inner">
+      <h2 class="title reveal">About Me</h2><div class="title-rule"></div>
+      <div class="about reveal">
+        <p>I am a Computer Science student at Oakland University with a background in Computer Information Systems. I am interested in the connection between technology, data, and business. Through coursework and personal projects, I have developed experience with web development, programming, data analysis, and problem-solving.</p>
+        <p>I also have customer service experience, which has helped me develop communication, teamwork, time management, and the ability to work with different types of people.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. SKILLS -->
+  <section class="section" id="skills">
+    <div class="section__inner">
+      <h2 class="title reveal">Skills</h2><div class="title-rule"></div>
+      <div class="grid grid--3">
+        <article class="card reveal">
+          <h3>Programming &amp; Web</h3>
+          <ul class="chips"><li>Java</li><li>Python</li><li>JavaScript</li><li>HTML</li><li>CSS</li><li>SQL</li></ul>
+        </article>
+        <article class="card reveal">
+          <h3>Data &amp; Tools</h3>
+          <ul class="chips"><li>Microsoft Excel</li><li>Data Analysis</li><li>GitHub</li><li>Visual Studio Code</li><li>Docker</li><li>Overleaf</li></ul>
+        </article>
+        <article class="card reveal">
+          <h3>Professional Skills</h3>
+          <ul class="chips"><li>Communication</li><li>Problem-Solving</li><li>Teamwork</li><li>Time Management</li><li>Attention to Detail</li><li>Adaptability</li><li>Customer Service</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. PROJECTS -->
+  <section class="section section--panel" id="projects">
+    <div class="section__inner">
+      <h2 class="title reveal">Projects</h2><div class="title-rule"></div>
+      <div class="grid grid--3">
+
+        <article class="card reveal">
+          <h3>JobTracker</h3>
+          <p class="tech">HTML • CSS • JavaScript</p>
+          <p>A web application designed to help users organize and track job applications. Users can keep track of applications, interviews, waiting results, and rejected applications.</p>
+          <p class="learned"><strong>What I learned:</strong> Web development, user interface design, JavaScript, organizing information.</p>
+          <div class="links"><a href="https://haihuynh25.github.io/JobTracker/" target="_blank" rel="noopener">Live Demo →</a><a href="https://github.com/HaiHuynh25/JobTracker-project.git" target="_blank" rel="noopener">GitHub →</a></div>
+        </article>
+
+        <article class="card reveal">
+          <h3>Weather Forecast Website</h3>
+          <p class="tech">HTML • CSS • JavaScript</p>
+          <p>A simple weather website that presents weather information in an easy-to-understand format. Designed the interface and used JavaScript to create interactive functionality.</p>
+          <div class="links"><a href="https://haihuynh25.github.io/Weather-App/" target="_blank" rel="noopener">Live Demo →</a><a href="https://github.com/HaiHuynh25/Weather-App.git" target="_blank" rel="noopener">GitHub →</a></div>
+        </article>
+
+        <article class="card reveal">
+          <h3>Starbucks Sales Data Analysis</h3>
+          <p class="tech">Microsoft Excel • Data Analysis</p>
+          <p>Analyzed real-world Starbucks sales data from Michigan to examine revenue and product sales. Used Excel to identify sales patterns and estimate daily sales for products such as cappuccinos and Pumpkin Spice Lattes.</p>
+          <div class="links"><a href="starbucks-analysis.html" target="_blank" rel="noopener">View Analysis →</a></div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. EXPERIENCE -->
+  <section class="section" id="experience">
+    <div class="section__inner">
+      <h2 class="title reveal">Experience</h2><div class="title-rule"></div>
+      <article class="card job reveal">
+        <h3>Waiter — Pho Chopstix</h3>
+        <p class="meta">Southfield, MI</p>
+        <p>Manage customer orders, communicate with kitchen staff, and provide service to a diverse range of customers in a fast-paced environment. Developed strong communication, teamwork, multitasking, problem-solving, and time-management skills.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- 6. EDUCATION -->
+  <section class="section section--panel" id="education">
+    <div class="section__inner">
+      <h2 class="title reveal">Education</h2><div class="title-rule"></div>
+      <div class="grid grid--2">
+        <article class="card reveal">
+          <h3>Oakland University</h3>
+          <p>Bachelor of Science in Computer Science</p>
+          <p class="meta" style="margin-top:8px">2026 – Present</p>
+        </article>
+        <article class="card reveal">
+          <h3>Oakland Community College</h3>
+          <p>Computer Information Systems</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. CONTACT -->
+  <section class="section" id="contact">
+    <div class="section__inner contact">
+      <h2 class="title reveal">Let's Connect</h2><div class="title-rule"></div>
+      <p class="lead reveal">I am interested in internship and entry-level opportunities where I can combine technology, data, problem-solving, and communication.</p>
+      <div class="btn-row reveal">
+        <a href="mailto:haikiet969753@gmail.com" class="btn">Email</a>
+        <a href="https://www.linkedin.com/in/hai-huynh-588923331" target="_blank" rel="noopener" class="btn">LinkedIn</a>
+        <a href="https://haihuynh25.github.io/" target="_blank" rel="noopener" class="btn">GitHub</a>
+        <a href="resume.pdf" download class="btn">Resume</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">© <span id="year"></span> Hai Huynh</footer>
+
+<script>
+/* ---------- Animated network background ---------- */
+(function () {
+  const canvas = document.getElementById("network");
+  const ctx = canvas.getContext("2d");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let w, h, dpr, nodes = [];
+  const mouse = { x: -9999, y: -9999 };
+  const LINK = 150;
+
+  function resize() {
+    dpr = window.devicePixelRatio || 1;
+    w = window.innerWidth; h = window.innerHeight;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const count = Math.min(110, Math.floor((w * h) / 14000));
+    nodes = Array.from({ length: count }, () => ({
+      x: Math.random() * w, y: Math.random() * h,
+      vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.35,
+      r: Math.random() * 2.6 + 1.2
+    }));
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    for (const n of nodes) {
+      if (!reduce) {
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0 || n.x > w) n.vx *= -1;
+        if (n.y < 0 || n.y > h) n.vy *= -1;
+      }
+    }
+    for (let i = 0; i < nodes.length; i++) {
+      const a = nodes[i];
+      for (let j = i + 1; j < nodes.length; j++) {
+        const b = nodes[j];
+        const d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (d < LINK) {
+          ctx.strokeStyle = "rgba(150,155,160," + (0.28 * (1 - d / LINK)) + ")";
+          ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        }
+      }
+      // link to mouse
+      const dm = Math.hypot(a.x - mouse.x, a.y - mouse.y);
+      if (dm < LINK * 1.2) {
+        ctx.strokeStyle = "rgba(95,179,161," + (0.5 * (1 - dm / (LINK * 1.2))) + ")";
+        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
+      }
+      ctx.fillStyle = "rgba(160,165,170,.75)";
+      ctx.beginPath(); ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2); ctx.fill();
+    }
+    if (!reduce) requestAnimationFrame(draw);
+  }
+
+  window.addEventListener("resize", () => { resize(); if (reduce) draw(); });
+  window.addEventListener("mousemove", (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  window.addEventListener("mouseleave", () => { mouse.x = mouse.y = -9999; });
+  resize(); draw();
+})();
+
+/* ---------- Footer year ---------- */
+document.getElementById("year").textContent = new Date().getFullYear();
+
+/* ---------- Mobile menu ---------- */
+const burger = document.getElementById("burger");
+const navLinks = document.getElementById("navLinks");
+burger.addEventListener("click", () => navLinks.classList.toggle("open"));
+navLinks.querySelectorAll("a").forEach(a => a.addEventListener("click", () => navLinks.classList.remove("open")));
+
+/* ---------- Nav shadow + active link ---------- */
+const nav = document.getElementById("nav");
+const sections = document.querySelectorAll("main section[id]");
+const links = document.querySelectorAll(".nav a");
+function onScroll() {
+  const y = window.scrollY;
+  nav.classList.toggle("scrolled", y > 20);
+  let current = "home";
+  sections.forEach(s => { if (y >= s.offsetTop - 160) current = s.id; });
+  links.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + current));
+}
+window.addEventListener("scroll", onScroll, { passive: true });
+onScroll();
+
+/* ---------- Scroll reveal ---------- */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll(".reveal").forEach((el, i) => {
+  el.style.transitionDelay = (i % 3) * 90 + "ms";
+  io.observe(el);
+});
+</script>
 </body>
 </html>
