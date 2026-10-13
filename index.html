@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobTrackr</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-briefcase"></i> JobTracker</h1>
+            <p class="subtitle">Track and manage your job applications with ease</p>
+        </header>
+        
+        <div class="content-wrapper">
+            <div class="app-container">
+                <div class="app-header">
+                    <h2><i class="fas fa-tasks"></i> Application Tracker</h2>
+                    <button id="export-btn"><i class="fas fa-file-export"></i> Export Data</button>
+                </div>
+                
+                <div class="tabs">
+                    <div class="tab active" data-tab="add">Add Application</div>
+                    <div class="tab" data-tab="view">View Applications</div>
+                    <div class="tab" data-tab="stats">Statistics</div>
+                </div>
+                
+                <div class="tab-content active" id="add-tab">
+                    <div id="edit-mode-indicator" class="edit-mode-indicator">
+                        <i class="fas fa-edit"></i> Editing Application
+                    </div>
+                    
+                    <form id="application-form">
+                        <input type="hidden" id="edit-id" >
+                        <div class="form-group">
+                            <label for="company">Company Name *</label>
+                            <input type="text" id="company" placeholder="e.g. Google, Amazon, Microsoft" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="position">Position *</label>
+                            <input type="text" id="position" placeholder="e.g. Business Analyst, Product Manager" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="applied-date">Applied Date *</label>
+                                <input type="date" id="applied-date" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="status">Status *</label>
+                                <select id="status" required>
+                                    <option value="Applied">Applied</option>
+                                    <option value="Interview Scheduled">Interview Scheduled</option>
+                                    <option value="Technical Round">Technical Round</option>
+                                    <option value="Offer Received">Accepted</option>
+                                    <option value="Rejected">Rejected</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="notes">Notes</label>
+                            <textarea id="notes" rows="3" placeholder="Interview details, contact person, preparation notes..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="next-step">Next Step</label>
+                            <input type="text" id="next-step" placeholder="e.g. Follow up on Tuesday, Prepare case study">
+                        </div>
+                        
+                        <div class="edit-form-actions">
+                            <button type="submit" id="submit-btn"><i class="fas fa-plus"></i> Add Application</button>
+                            <button type="button" id="cancel-edit-btn" class="btn-warning"><i class="fas fa-times"></i> Cancel Edit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="tab-content" id="view-tab">
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label>Filter by status:</label>
+                            <select id="status-filter">
+                                <option value="all">All Applications</option>
+                                <option value="Applied">Applied</option>
+                                <option value="Interview Scheduled">Interview Scheduled</option>
+                                <option value="Technical Round">Technical Round</option>
+                                <option value="Offer Received">Accepted</option>
+                                <option value="Rejected">Rejected</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label>Sort by:</label>
+                            <select id="sort-by">
+                                <option value="newest">Newest First</option>
+                                <option value="oldest">Oldest First</option>
+                                <option value="company">Company Name</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label>Search:</label>
+                            <input type="text" id="search" placeholder="Company or position">
+                        </div>
+                    </div>
+                    
+                    <div class="view-toggle">
+                        <div class="view-btn active" data-view="grid"><i class="fas fa-th"></i> Grid</div>
+                        <div class="view-btn" data-view="list"><i class="fas fa-list"></i> List</div>
+                    </div>
+                    
+                    <div id="applications-container">
+                        <!-- Applications will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="stats-tab">
+                    <h3><i class="fas fa-chart-pie"></i> Application Statistics</h3>
+                    
+                    <div class="stats">
+                        <div class="stat-card">
+                            <div class="stat-value" id="total-apps">0</div>
+                            <div class="stat-label">Total Applications</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="active-apps">0</div>
+                            <div class="stat-label">In Progress</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="interviews">0</div>
+                            <div class="stat-label">Interviews</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="offers">0</div>
+                            <div class="stat-label">Offers</div>
+                        </div>
+                    </div>
+                    
+                    <div class="export-section">
+                        <div>
+                            <h4><i class="fas fa-download"></i> Backup Your Data</h4>
+                            <p>Export your application data as a JSON file</p>
+                        </div>
+                        <button id="export-data-btn"><i class="fas fa-file-download"></i> Export Data</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>JobTrackr - Your Application Tracker | Data is stored locally in your browser</p>
+        </footer>
+    </div>
+
+    <script src="script/interviewTracker.js"></script>
+</body>
+</html>
